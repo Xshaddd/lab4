@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<head>
+    <title>Leasing manager ({{ type }})</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>Leasing manager ({{ type }})</h1>
+    </header>
+    <aside class="sidebar">
+        {{ name }} {{ surname }}<br>
+        {{ type }} ({{ id }})
+    </aside>
+    <div class="main">
+        {% block content %}{% endblock %}
+    </div>
+</body>

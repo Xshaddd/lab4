@@ -1,0 +1,69 @@
+{% extends 'workspace.html' %}
+{% block content %}    
+<style>
+    .content {
+        display: flex;
+        align-items: flex-start;
+    }
+    .description {
+        padding-left: 5%;
+        width: 40%;
+    }
+
+</style>
+
+<div class="content">
+    <div class="itemlist">
+        <ul>
+            {% for item in items %}
+                <li>
+                    <a href="{{ url_for('show_workspace', item_address=item.subject.address) }}">{{ item.subject.address }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="description">
+        {% if selected_item %}
+        <div id="details">
+            Area: {{ selected_item.subject.area }} <br>
+            Owner: {{ selected_item.landlord.name }} {{ selected_item.landlord.surname }} <br>
+            <form method="POST" action="{{ url_for('show_workspace') }}">
+                <input type="hidden" name="item_id" value="{{ selected_item.subject.address }}">
+                <button type="submit">Start lease</button>
+            </form>
+
+            <div id="timer">
+                {{ end_time }}
+                <script>
+                    const endTime = {{ end_time }};  // milliseconds since epoch
+                    const timerDiv = document.getElementById("timer");
+                
+                    function updateTimer() {
+                        const now = Date.now();
+                        const diff = endTime - now;
+                
+                        if (diff <= 0) {
+                            timerDiv.textContent = "Lease terminated.";
+                            clearInterval(timerInterval);
+                            return;
+                        }
+                
+                        const minutes = Math.floor((diff / 1000 / 60) % 60);
+                        const seconds = Math.floor((diff / 1000) % 60);
+                        timerDiv.textContent = `${minutes}m ${seconds}s`;
+                    }
+                
+                    updateTimer();
+                    const timerInterval = setInterval(updateTimer, 1000);
+                </script>
+            </div>
+        </div>
+        {% else %}
+        <div id="details">
+            <p>Select an item to see details.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

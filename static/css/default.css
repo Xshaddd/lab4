@@ -1,0 +1,44 @@
+.sidebar {
+    height: auto;
+    width: 160px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    background-color: #fff;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+    padding: 1rem;
+}
+
+
+.header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.main {
+    margin-left: 160px; /* Same as the width of the sidebar */
+    padding: 0px 10px;
+    flex: 1;
+    padding: 2rem;
+}
+
+.itemlist {
+    height: 200px;              
+    overflow-y: auto;           
+    border: 1px solid #000000;
+    padding: 0.5rem;
+    width: 200px;
+}
+
+.itemlist ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.itemlist li {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #eee;
+}
