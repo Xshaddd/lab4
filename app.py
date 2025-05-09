@@ -133,13 +133,36 @@ def tenant_mode(user_data, methods=['GET', 'POST']):
 
 def landlord_mode(user_data):
 
-    return render_template(
-        'workspace_landlord.html',
-        name=user_data['name'],
-        surname=user_data['surname'],
-        type=user_data['type'],
-        id=user_data['id']
-    )
+    user = Landlord(user_data['name'], user_data['surname'])
+    user._property.clear()
+    with open('data/propertydata.csv') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row['ownerid'] == session['userid']:
+                area = float(row['area'])
+                address = row['address']
+                housing = Housing(area, address)
+                user._property.append(housing)
+
+    item_id = request.args.get('item_address', type=str)
+    if item_id:
+        selected_item = [i for i in user._property if i.address == item_id][0]
+        session['sel_id'] = selected_item.address
+
+    return_kwargs = { 
+            'name':user_data['name'],
+            'surname':user_data['surname'],
+            'type':user_data['type'],
+            'id':user_data['id'],
+            'items': user._property
+            }
+    
+    if 'selected_item' in locals():
+        return_kwargs.update({
+            'selected_item': selected_item
+        })
+
+    return render_template('workspace_landlord.html', **return_kwargs)
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.

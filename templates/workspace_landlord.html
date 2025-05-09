@@ -1,4 +1,38 @@
 {% extends 'workspace.html' %}
 {% block content %}
-    <h2>Landlord</h2>
+<style>
+    .content {
+        display: flex;
+        align-items: flex-start;
+    }
+    .description {
+        padding-left: 5%;
+        width: 40%;
+    }
+
+</style>
+
+<div class="content">
+    <div class="itemlist">
+        <ul>
+            {% for item in items %}
+                <li>
+                    <a href="{{ url_for('show_workspace', item_address=item.address) }}">{{ item.address }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="description">
+        {% if selected_item %}
+        <div id="details">
+            Area: {{ selected_item.area }} <br>
+        </div>
+        {% else %}
+        <div id="details">
+            <p>Select an item to see details.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
